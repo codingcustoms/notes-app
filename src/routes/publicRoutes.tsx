@@ -1,6 +1,6 @@
 import { Navigate, RouteObject } from 'react-router-dom';
 import { BASE_URL, PUBLIC_ROUTES } from './appRoutes';
-import { SignIn } from '@/pages';
+import { SignIn, SignUp } from '@/pages';
 
 export const PublicRoutes: TArray<RouteObject> = [
   {
@@ -10,5 +10,9 @@ export const PublicRoutes: TArray<RouteObject> = [
   {
     path: PUBLIC_ROUTES.SIGN_IN,
     element: <SignIn />,
+  },
+  {
+    path: PUBLIC_ROUTES.SIGN_UP,
+    element: <SignUp />,
   },
 ];

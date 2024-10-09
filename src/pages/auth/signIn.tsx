@@ -13,9 +13,11 @@ import {
   FormLabel,
   FormMessage,
   Input,
+  Paragraph,
 } from '@/components/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
 import { signInSchema } from './validations';
 
 type FormInput = TZodInfer<typeof signInSchema>;
@@ -42,7 +44,7 @@ export const SignIn = () => {
         </CardDescription>
       </CardHeader>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
+        <form onSubmit={form.handleSubmit(onSubmit)} className=''>
           <CardContent className='grid gap-4'>
             <FormField
               control={form.control}
@@ -58,7 +60,6 @@ export const SignIn = () => {
                       {...field}
                     />
                   </FormControl>
-
                   <FormMessage />
                 </FormItem>
               )}
@@ -83,8 +84,14 @@ export const SignIn = () => {
               )}
             />
           </CardContent>
-          <CardFooter>
+          <CardFooter className='flex flex-col my-2'>
             <Button className='w-full'>Sign in</Button>
+            <div className='flex gap-1 justify-center items-center my-3'>
+              <Paragraph>Don't have an account?</Paragraph>
+              <Link to={'/signUp'} className='hover:underline'>
+                Sign Up
+              </Link>
+            </div>
           </CardFooter>
         </form>
       </Form>
