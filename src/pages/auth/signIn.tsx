@@ -15,19 +15,21 @@ import {
   Input,
   Paragraph,
 } from '@/components/ui';
+import { SIGN_IN_FORM_SCHEMA } from '@/constants';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
 import { signInSchema } from './validations';
+import { FacebookIcon, GoogleIcon, TwitterIcon } from '@/assets/icons';
 
+const { EMAIL, PASSWORD } = SIGN_IN_FORM_SCHEMA;
 type FormInput = TZodInfer<typeof signInSchema>;
 
 export const SignIn = () => {
   const form = useForm<FormInput>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
-      email: '',
-      password: '',
+      [EMAIL.key]: '',
+      [PASSWORD.key]: '',
     },
   });
 
@@ -48,13 +50,12 @@ export const SignIn = () => {
           <CardContent className='grid gap-4'>
             <FormField
               control={form.control}
-              name='email'
+              name={EMAIL.key}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>{EMAIL.title}</FormLabel>
                   <FormControl>
                     <Input
-                      id='email'
                       type='email'
                       placeholder='m@example.com'
                       {...field}
@@ -66,13 +67,12 @@ export const SignIn = () => {
             />
             <FormField
               control={form.control}
-              name='password'
+              name={PASSWORD.key}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>{PASSWORD.title}</FormLabel>
                   <FormControl>
                     <Input
-                      id='password'
                       type='password'
                       placeholder='Enter your password'
                       {...field}
@@ -88,9 +88,20 @@ export const SignIn = () => {
             <Button className='w-full'>Sign in</Button>
             <div className='flex gap-1 justify-center items-center my-3'>
               <Paragraph>Don't have an account?</Paragraph>
-              <Link to={'/signUp'} className='hover:underline'>
+              <Button variant={'link'} className='hover:underline'>
                 Sign Up
-              </Link>
+              </Button>
+            </div>
+            <div className='flex gap-3'>
+              <Button variant={'outline'} className='size-10 rounded-full p-0'>
+                <img src={GoogleIcon} className='size-6' />
+              </Button>
+              <Button variant={'outline'} className='size-10 rounded-full p-0'>
+                <img src={FacebookIcon} className='size-6' />
+              </Button>
+              <Button variant={'outline'} className='size-10 rounded-full p-0'>
+                <img src={TwitterIcon} className='size-6' />
+              </Button>
             </div>
           </CardFooter>
         </form>

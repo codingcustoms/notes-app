@@ -2,7 +2,6 @@ import {
   Button,
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -15,16 +14,19 @@ import {
   Input,
   Paragraph,
 } from '@/components/ui';
+import { SIGN_UP_FORM_SCHEMA } from '@/constants';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-import { signInSchema } from './validations';
+import { signUpSchema } from './validations';
 
-type FormInput = TZodInfer<typeof signInSchema>;
+const { EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, USERNAME } =
+  SIGN_UP_FORM_SCHEMA;
+type FormInput = TZodInfer<typeof signUpSchema>;
 
 export const SignUp = () => {
   const form = useForm<FormInput>({
-    resolver: zodResolver(signInSchema),
+    resolver: zodResolver(signUpSchema),
     defaultValues: {
       email: '',
       password: '',
@@ -39,24 +41,59 @@ export const SignUp = () => {
     <Card className='w-full max-w-sm'>
       <CardHeader>
         <CardTitle className='text-2xl'>Sign up</CardTitle>
-        <CardDescription>
-          Enter your email below to sign up to your account.
-        </CardDescription>
       </CardHeader>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className=''>
-          <CardContent className='grid gap-4'>
+          <CardContent className='grid grid-cols-2 gap-4'>
             <FormField
               control={form.control}
-              name='email'
+              name={FIRST_NAME.key}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>{FIRST_NAME.title}</FormLabel>
+                  <FormControl>
+                    <Input placeholder='Enter first name' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name={LAST_NAME.key}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{LAST_NAME.title}</FormLabel>
+                  <FormControl>
+                    <Input placeholder='Enter last name' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name={USERNAME.key}
+              render={({ field }) => (
+                <FormItem className='col-span-2'>
+                  <FormLabel>{USERNAME.title}</FormLabel>
+                  <FormControl>
+                    <Input placeholder='Enter username' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name={EMAIL.key}
+              render={({ field }) => (
+                <FormItem className='col-span-2'>
+                  <FormLabel>{EMAIL.title}</FormLabel>
                   <FormControl>
                     <Input
-                      id='email'
                       type='email'
-                      placeholder='m@example.com'
+                      placeholder='willsmith@example.com'
                       {...field}
                     />
                   </FormControl>
@@ -66,36 +103,17 @@ export const SignUp = () => {
             />
             <FormField
               control={form.control}
-              name='username'
+              name={PASSWORD.key}
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Username</FormLabel>
+                <FormItem className='col-span-2'>
+                  <FormLabel>{PASSWORD.title}</FormLabel>
                   <FormControl>
                     <Input
-                      id='username'
-                      placeholder='m@example.com'
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='password'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      id='password'
                       type='password'
                       placeholder='Enter your password'
                       {...field}
                     />
                   </FormControl>
-
                   <FormMessage />
                 </FormItem>
               )}
