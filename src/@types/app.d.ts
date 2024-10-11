@@ -17,3 +17,5 @@ type TObject<
 > = Record<Key, Values>;
 
 type TZodInfer<Schema> = import('zod').infer<Schema>;
+
+type TOptions = { title: string; key: string };
