@@ -1,3 +1,4 @@
+import { FacebookIcon, GoogleIcon, TwitterIcon } from '@/assets/icons';
 import {
   Button,
   Card,
@@ -14,17 +15,24 @@ import {
   FormMessage,
   Input,
   Paragraph,
+  Spinner,
+  toast,
 } from '@/components/ui';
 import { SIGN_IN_FORM_SCHEMA } from '@/constants';
+import { useAppNavigate, useSignIn } from '@/hooks';
+import { buildAppRoutes, getErrorResponseMessage } from '@/lib/utils';
+import { PRIVATE_ROUTES, PUBLIC_ROUTES } from '@/routes/appRoutes';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { signInSchema } from './validations';
-import { FacebookIcon, GoogleIcon, TwitterIcon } from '@/assets/icons';
 
 const { EMAIL, PASSWORD } = SIGN_IN_FORM_SCHEMA;
 type FormInput = TZodInfer<typeof signInSchema>;
 
 export const SignIn = () => {
+  const { navigateTo } = useAppNavigate();
+
   const form = useForm<FormInput>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
@@ -33,9 +41,28 @@ export const SignIn = () => {
     },
   });
 
+  const { data, isPending, isSuccess, isError, error, mutate } = useSignIn();
+
+  useEffect(() => {
+    if (isSuccess) {
+      console.log({ data });
+      toast.success('Signed In successfully!');
+      navigateTo(buildAppRoutes(PRIVATE_ROUTES.DASHBOARD.BASE, ''));
+    }
+  }, [isSuccess, data, navigateTo]);
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(getErrorResponseMessage(error));
+    }
+  }, [isError, error]);
+
   const onSubmit = (values: FormInput) => {
     console.log(values);
+    mutate(values);
   };
+
+  const handleOnClickSignUp = () => navigateTo(PUBLIC_ROUTES.SIGN_UP);
 
   return (
     <Card className='w-full max-w-sm'>
@@ -85,10 +112,17 @@ export const SignIn = () => {
             />
           </CardContent>
           <CardFooter className='flex flex-col my-2'>
-            <Button className='w-full'>Sign in</Button>
-            <div className='flex gap-1 justify-center items-center my-3'>
+            <Button className='w-full' type='submit'>
+              {isPending && <Spinner />}
+              Sign in
+            </Button>
+            <div className='flex gap-2 justify-center items-center my-3'>
               <Paragraph>Don't have an account?</Paragraph>
-              <Button variant={'link'} className='hover:underline'>
+              <Button
+                variant={'link'}
+                onClick={handleOnClickSignUp}
+                className='p-0'
+              >
                 Sign Up
               </Button>
             </div>

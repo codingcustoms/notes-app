@@ -115,10 +115,7 @@ export const Paragraph: React.FC<ComponentPropsWithoutRef<'p'>> = ({
   ...rest
 }) => {
   return (
-    <p
-      className={cn('leading-7 [&:not(:first-child)]:mt-6', className)}
-      {...rest}
-    >
+    <p className={cn(className)} {...rest}>
       {children}
     </p>
   );
