@@ -16,5 +16,15 @@
     "ui": "@/components/ui",
     "lib": "@/lib",
     "hooks": "@/hooks"
+  },
+  "registries": {
+    "plate-ui": {
+      "url": "https://platejs.org/r",
+      "style": "default",
+      "aliases": {
+        "ui": "@/components/plate-ui",
+        "lib": "@/lib"
+      }
+    }
   }
 }

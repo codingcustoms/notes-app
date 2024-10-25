@@ -1,4 +1,6 @@
 import { Pin, PlusCircle, Trash2 } from '@/assets/icons';
+import { PlateEditor } from '@/components/custom';
+
 import {
   Badge,
   Button,
@@ -10,7 +12,6 @@ import {
   CardTitle,
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -145,19 +146,19 @@ const NotesCard: React.FC<{ noteData: TObject }> = ({ noteData }) => {
           ref={dialogTriggerRef}
           className='hidden'
         ></DialogTrigger>
-        <DialogContent className='h-[75dvh] w-full max-w-screen-md border border-red-500'>
+        <DialogContent className='h-[75dvh] content-start w-full max-w-screen-md border border-red-500'>
           <DialogHeader className=''>
             <DialogTitle>
               <Input
                 defaultValue={title}
-                className='border-transparent shadow-none focus-visible:ring-0 mt-5'
-                placeholder='Enter Your Title'
+                className='border-transparent shadow-none mt-4'
+                placeholder='Title'
               />
             </DialogTitle>
-            <DialogDescription>
-              <Markdown>{content}</Markdown>
-            </DialogDescription>
+            {/* <DialogDescription></DialogDescription> */}
           </DialogHeader>
+          {/* <Markdown>{content}</Markdown> */}
+          <PlateEditor />
         </DialogContent>
       </Dialog>
     </>
